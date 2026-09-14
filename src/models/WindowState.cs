@@ -87,7 +87,7 @@ namespace LiveCaptionsTranscriber.models
         private int backgroundColor = 8;
         private byte opacity = 150;
         private int historyMax = 1;
-        private bool showOnStartup = true;
+        private bool showOnStartup = false;
 
         public int FontSize
         {
