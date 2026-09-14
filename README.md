@@ -91,6 +91,7 @@ A focused transcription tool that enhances Windows LiveCaptions with a modern in
 - **⚙️ Simple Controls**
 
   - Show or hide the Windows Live Captions window from the Settings page
+  - View and toggle the Windows Live Captions microphone-audio preference in-app
   - Resize current and full-transcription text independently with Ctrl+Scroll
   - Always-on-top window option
   - Overlay mode toggle
