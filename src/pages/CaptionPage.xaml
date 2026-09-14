@@ -27,7 +27,9 @@
         <ui:Card
             Grid.Row="0"
             Padding="8"
-            VerticalAlignment="Stretch">
+            VerticalAlignment="Stretch"
+            PreviewMouseWheel="CurrentSentenceCard_PreviewMouseWheel"
+            ToolTip="Ctrl+Scroll to resize the current caption">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -79,7 +81,9 @@
         <ui:Card
             Grid.Row="2"
             Margin="0,5,0,0"
-            Padding="8">
+            Padding="8"
+            PreviewMouseWheel="TranscriptionCard_PreviewMouseWheel"
+            ToolTip="Ctrl+Scroll to resize the full transcription">
             <ScrollViewer
                 x:Name="TranscriptionScrollViewer"
                 VerticalScrollBarVisibility="Auto"

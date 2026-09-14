@@ -11,6 +11,8 @@ namespace LiveCaptionsTranscriber.models
         private bool captionLogEnabled = false;
         private int captionLogMax = 2;
         private bool latencyShow = false;
+        private int currentCaptionFontSize = 16;
+        private int transcriptionFontSize = 14;
 
         public bool Topmost
         {
@@ -46,6 +48,24 @@ namespace LiveCaptionsTranscriber.models
             {
                 latencyShow = value;
                 OnPropertyChanged("LatencyShow");
+            }
+        }
+        public int CurrentCaptionFontSize
+        {
+            get => currentCaptionFontSize;
+            set
+            {
+                currentCaptionFontSize = value;
+                OnPropertyChanged("CurrentCaptionFontSize");
+            }
+        }
+        public int TranscriptionFontSize
+        {
+            get => transcriptionFontSize;
+            set
+            {
+                transcriptionFontSize = value;
+                OnPropertyChanged("TranscriptionFontSize");
             }
         }
 

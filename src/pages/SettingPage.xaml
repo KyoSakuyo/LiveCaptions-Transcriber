@@ -1,0 +1,65 @@
+<Page
+    x:Class="LiveCaptionsTranscriber.SettingPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    Title="SettingPage"
+    JournalEntry.KeepAlive="True"
+    mc:Ignorable="d">
+
+    <Grid Margin="15">
+        <ui:Card
+            Width="360"
+            Padding="16"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" Margin="0,0,20,0">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                            FontSize="15"
+                            FontWeight="SemiBold"
+                            Text="Windows Live Captions" />
+                        <ui:Flyout x:Name="LiveCaptionsInfoFlyout">
+                            <TextBlock Width="310" TextWrapping="Wrap">
+                                <Run Text="The app keeps Windows Live Captions running in the background to read its transcription. " />
+                                <Run Text="Use this control to show it when changing the source language, then hide it again without closing it." />
+                            </TextBlock>
+                        </ui:Flyout>
+                        <Button
+                            Width="18"
+                            Height="18"
+                            Margin="6,0,0,0"
+                            Padding="0"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            MouseEnter="LiveCaptionsInfo_MouseEnter"
+                            MouseLeave="LiveCaptionsInfo_MouseLeave">
+                            <ui:SymbolIcon Symbol="Info16" />
+                        </Button>
+                    </StackPanel>
+                    <TextBlock
+                        Margin="0,5,0,0"
+                        Foreground="Gray"
+                        Text="Show it to change the source language."
+                        TextWrapping="Wrap" />
+                </StackPanel>
+
+                <ui:Button
+                    x:Name="LiveCaptionsButton"
+                    Grid.Column="1"
+                    MinWidth="92"
+                    Padding="16,7"
+                    Click="LiveCaptionsButton_Click"
+                    Content="Show" />
+            </Grid>
+        </ui:Card>
+    </Grid>
+</Page>

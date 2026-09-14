@@ -2,6 +2,7 @@ using System.ComponentModel;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Threading;
 
 using LiveCaptionsTranscriber.utils;
@@ -11,6 +12,8 @@ namespace LiveCaptionsTranscriber
     public partial class CaptionPage : Page
     {
         public const int CARD_HEIGHT = 110;
+        private const int MIN_FONT_SIZE = 8;
+        private const int MAX_FONT_SIZE = 40;
 
         private static CaptionPage instance;
         public static CaptionPage Instance => instance;
@@ -20,6 +23,7 @@ namespace LiveCaptionsTranscriber
             InitializeComponent();
             DataContext = Transcriber.Caption;
             instance = this;
+            ApplyFontSizes();
 
             Loaded += (s, e) =>
             {
@@ -31,21 +35,19 @@ namespace LiveCaptionsTranscriber
             };
         }
 
-        private async void TextBlock_MouseLeftButtonDown(object sender, RoutedEventArgs e)
+        private void TextBlock_MouseLeftButtonDown(object sender, RoutedEventArgs e)
         {
             if (sender is TextBlock textBlock)
             {
                 try
                 {
                     Clipboard.SetText(textBlock.Text);
-                    textBlock.ToolTip = "Copied!";
+                    ShowMessage("Copied", "Transcription copied to the clipboard.");
                 }
-                catch
+                catch (Exception ex)
                 {
-                    textBlock.ToolTip = "Error to Copy";
+                    ShowMessage("Copy failed", ex.Message, true);
                 }
-                await Task.Delay(500);
-                textBlock.ToolTip = "Click to Copy";
             }
         }
 
@@ -68,16 +70,16 @@ namespace LiveCaptionsTranscriber
                 if (!string.IsNullOrEmpty(Transcriber.Caption.FullTranscriptionText))
                 {
                     Clipboard.SetText(Transcriber.Caption.FullTranscriptionText);
-                    ShowTemporaryMessage("Copied to clipboard!");
+                    ShowMessage("Copied", "Transcription copied to the clipboard.");
                 }
                 else
                 {
-                    ShowTemporaryMessage("No transcription to copy");
+                    ShowMessage("Nothing to copy", "There is no transcription yet.");
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                ShowTemporaryMessage("Failed to copy");
+                ShowMessage("Copy failed", ex.Message, true);
             }
         }
 
@@ -86,20 +88,51 @@ namespace LiveCaptionsTranscriber
             try
             {
                 Transcriber.Caption.ClearFullTranscription();
-                ShowTemporaryMessage("Transcription cleared");
+                ShowMessage("Cleared", "The current transcription was cleared.");
             }
-            catch
+            catch (Exception ex)
             {
-                ShowTemporaryMessage("Failed to clear");
+                ShowMessage("Clear failed", ex.Message, true);
             }
         }
 
-        private async void ShowTemporaryMessage(string message)
+        private static void ShowMessage(string title, string message, bool isError = false)
         {
-            var originalText = CopyButton.Content;
-            CopyButton.Content = message;
-            await Task.Delay(1500);
-            CopyButton.Content = originalText;
+            (Application.Current.MainWindow as MainWindow)?.ShowSnackbar(title, message, isError);
+        }
+
+        private void ApplyFontSizes()
+        {
+            CurrentSentence.FontSize = Transcriber.Setting.MainWindow.CurrentCaptionFontSize;
+            FullTranscription.FontSize = Transcriber.Setting.MainWindow.TranscriptionFontSize;
+        }
+
+        private void CurrentSentenceCard_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (Keyboard.Modifiers != ModifierKeys.Control)
+                return;
+
+            Transcriber.Setting.MainWindow.CurrentCaptionFontSize = AdjustFontSize(
+                Transcriber.Setting.MainWindow.CurrentCaptionFontSize, e.Delta);
+            ApplyFontSizes();
+            e.Handled = true;
+        }
+
+        private void TranscriptionCard_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (Keyboard.Modifiers != ModifierKeys.Control)
+                return;
+
+            Transcriber.Setting.MainWindow.TranscriptionFontSize = AdjustFontSize(
+                Transcriber.Setting.MainWindow.TranscriptionFontSize, e.Delta);
+            ApplyFontSizes();
+            e.Handled = true;
+        }
+
+        private static int AdjustFontSize(int current, int wheelDelta)
+        {
+            int next = current + (wheelDelta > 0 ? 1 : -1);
+            return Math.Clamp(next, MIN_FONT_SIZE, MAX_FONT_SIZE);
         }
 
         public void CollapseTranslatedCaption(bool isCollapsed)

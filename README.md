@@ -84,12 +84,14 @@ A focused transcription tool that enhances Windows LiveCaptions with a modern in
 - **📚 History Management**
 
   - Automatic logging of all transcriptions with timestamps
-  - Export history to CSV files
+  - Export history to CSV files and reveal the saved file in Explorer
   - Search and filter capabilities
   - Persistent storage across sessions
 
 - **⚙️ Simple Controls**
 
+  - Show or hide the Windows Live Captions window from the Settings page
+  - Resize current and full-transcription text independently with Ctrl+Scroll
   - Always-on-top window option
   - Overlay mode toggle
   - Clean, distraction-free interface

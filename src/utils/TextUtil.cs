@@ -4,8 +4,8 @@ namespace LiveCaptionsTranscriber.utils
 {
     public static class TextUtil
     {
-        public static readonly char[] PUNC_EOS = ".?!??!".ToCharArray();
-        public static readonly char[] PUNC_COMMA = ",,?�\n".ToCharArray();
+        public static readonly char[] PUNC_EOS = ".?!。？！".ToCharArray();
+        public static readonly char[] PUNC_COMMA = ",，、—\n".ToCharArray();
 
         public const int SHORT_THRESHOLD = 10;
         public const int MEDIUM_THRESHOLD = 40;
@@ -35,18 +35,24 @@ namespace LiveCaptionsTranscriber.utils
 
                 char lastChar = splits[i][^1];
                 if (Encoding.UTF8.GetByteCount(splits[i]) >= byteThreshold)
-                    splits[i] += isCJChar(lastChar) ? "?" : ". ";
+                    splits[i] += isCJChar(lastChar) ? "。" : ". ";
                 else
-                    splits[i] += isCJChar(lastChar) ? "��" : "�";
+                    splits[i] += isCJChar(lastChar) ? "——" : "—";
             }
             return string.Join("", splits);
         }
 
         public static bool isCJChar(char ch)
         {
-            return (ch >= '\u4E00' && ch <= '\u9FFF') ||
-                   (ch >= '\u3400' && ch <= '\u4DBF') ||
-                   (ch >= '\u3040' && ch <= '\u30FF');
+            return
+                (ch >= '\u4E00' && ch <= '\u9FFF') ||
+                (ch >= '\u3400' && ch <= '\u4DBF') ||
+                (ch >= '\u3000' && ch <= '\u303F') ||
+                (ch >= '\u3040' && ch <= '\u309F') ||
+                (ch >= '\u30A0' && ch <= '\u30FF') ||
+                (ch >= '\u31F0' && ch <= '\u31FF') ||
+                (ch >= '\u3200' && ch <= '\u32FF') ||
+                (ch >= '\u3300' && ch <= '\u33FF');
         }
 
         public static double Similarity(string text1, string text2)

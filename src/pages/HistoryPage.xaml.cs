@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Windows.Controls;
 using System.Windows;
 using Microsoft.Win32;
@@ -127,6 +128,12 @@ namespace LiveCaptionsTranscriber
                 try
                 {
                     await SQLiteHistoryLogger.ExportToCSV(saveFileDialog.FileName);
+                    Process.Start(new ProcessStartInfo
+                    {
+                        FileName = "explorer.exe",
+                        Arguments = $"/select,\"{saveFileDialog.FileName}\"",
+                        UseShellExecute = true
+                    });
                     Snackbar_Show("Saved Success", $"File saved to: {saveFileDialog.FileName}");
                 }
                 catch (Exception ex)
