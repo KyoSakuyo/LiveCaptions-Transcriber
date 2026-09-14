@@ -11,16 +11,11 @@
 
     <Grid Margin="15">
         <ui:Card
-            Width="480"
+            Width="360"
             Padding="16"
             HorizontalAlignment="Left"
             VerticalAlignment="Top">
             <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
@@ -64,37 +59,6 @@
                     Padding="16,7"
                     Click="LiveCaptionsButton_Click"
                     Content="Show" />
-
-                <Separator
-                    Grid.Row="1"
-                    Grid.ColumnSpan="2"
-                    Margin="0,14" />
-
-                <StackPanel Grid.Row="2" Grid.Column="0" Margin="0,0,20,0">
-                    <TextBlock
-                        FontSize="15"
-                        FontWeight="SemiBold"
-                        Text="Include microphone audio" />
-                    <TextBlock
-                        x:Name="MicrophoneAudioStatus"
-                        Margin="0,5,0,0"
-                        Foreground="Gray"
-                        Text="Checking the current Windows setting…"
-                        TextWrapping="Wrap" />
-                </StackPanel>
-
-                <ui:ToggleSwitch
-                    x:Name="MicrophoneAudioToggle"
-                    Grid.Row="2"
-                    Grid.Column="1"
-                    MinWidth="92"
-                    VerticalAlignment="Center"
-                    Checked="MicrophoneAudioToggle_Changed"
-                    IsChecked="{x:Null}"
-                    IsThreeState="True"
-                    OffContent="Off"
-                    OnContent="On"
-                    Unchecked="MicrophoneAudioToggle_Changed" />
             </Grid>
         </ui:Card>
     </Grid>
